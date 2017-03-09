@@ -147,7 +147,7 @@ function adder() {
 		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
 	}
 	function detectSiblingColor(arg1,arg2,arg3) {
-// получаем заначение цвета фона справа от кликнутой ячейки
+// получаем значение цвета фона справа от кликнутой ячейки
 		var rig = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
 		console.log('Y & X: ', arg1, ' ', arg2);
 		console.log('previousEl: ', el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText);
@@ -169,11 +169,11 @@ function adder() {
 	if(stack.length == 1) { // 1-st click
 //		console.log('1-step', stack, pYpX);
 	}
-	else if(stack.length >= 2) { // 2-st click
+	else if(stack.length == 2) { // 2-st click
 //		console.log('2-step',stack, pYpX,'\nstack[0]',stack[0]);		
 
 		// Красим ячейку обратно W or B
-		detectSiblingColor(stYX[0],stYX[1],'red'); //////////////////////////////////////// откорректировать при помощи alert'ов
+		detectSiblingColor(stYX[0],stYX[1],'red'); 
 		bgColor(stYX[0],stYX[1],'red');
 
 //		arrp.shift(arrp[1]);
@@ -183,12 +183,13 @@ function adder() {
 /// ОЧЕРЕДЬ -- http://shuvalov.info/2013/03/21/stack-and-queue/
 //	}
 	else {
-		detectSiblingColor(stYX[0],stYX[1],'red'); //////////////////////////////////////// откорректировать при помощи alert'ов
+		detectSiblingColor(stYX[0],stYX[1],'red'); 
 		stack.shift();
 		console.log('\nwrong length\n', pYpX);
 //		alert(stack[0],stack[1]);
 		var stYX=stack[0];
-////////////		bgColor(stYX[0],stYX[1],'red');
+		alert(stYX[1]);/////////////////////////////////////////////////////////////// 
+		bgColor(stYX[0],stYX[1],'red');
 	}
 	console.log('End = ',stack);
 //	alert(stack);
