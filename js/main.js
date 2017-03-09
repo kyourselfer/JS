@@ -174,7 +174,7 @@ function adder() {
 
 		// Красим ячейку обратно W or B
 		detectSiblingColor(stYX[0],stYX[1],'red'); //////////////////////////////////////// откорректировать при помощи alert'ов
-////////////		bgColor(stYX[0],stYX[1],'red');
+		bgColor(stYX[0],stYX[1],'red');
 
 //		arrp.shift(arrp[1]);
 //		console.log('4-step',arrp); 
