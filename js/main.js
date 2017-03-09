@@ -177,7 +177,7 @@ function adder() {
 ////////////		bgColor(stYX[0],stYX[1],'red');
 
 //		arrp.shift(arrp[1]);
-//		console.log('4-step',arrp);
+//		console.log('4-step',arrp); 
 	}
 //// изучить с практикой addEventListener!
 /// ОЧЕРЕДЬ -- http://shuvalov.info/2013/03/21/stack-and-queue/
