@@ -155,7 +155,7 @@ function adder() {
 
 		if(rig === 'background: black;') {
 //			alert(' NextSiblin has Black color ');
-			el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText = "background: green;"
+			el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText = "background: red;"
 		}
 		else {
 //			alert(' NextSiblin has White color ');
