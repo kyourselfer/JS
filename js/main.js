@@ -164,6 +164,9 @@ function adder() {
 //		alert(rig);
 //		return arg3
 	}
+
+
+
 	var stYX=stack[0];
 	stack.push( pYpX );
 	if(stack.length == 1) { // 1-st click
@@ -174,7 +177,7 @@ function adder() {
 
 		// Красим ячейку обратно W or B
 		detectSiblingColor(stYX[0],stYX[1],'red'); 
-		bgColor(stYX[0],stYX[1],'red');
+//////////		bgColor(stYX[0],stYX[1],'red');
 
 //		arrp.shift(arrp[1]);
 //		console.log('4-step',arrp); 
