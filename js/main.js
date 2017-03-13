@@ -97,17 +97,14 @@ function adder() {
 		else {
 			color='white';
 		}
-// фун. возвращения прежнего цвета ячейки доски
+		// фун. возвращения прежнего цвета ячейки доски
 		return color
 	}
-	
 	// код фун. adder()
-//	var stYX=pYpX, c1;
 	var stYX=stack[0], c1; // stYX предыдущий клик!!!
 	// Добавляем координаты клика в конец массива stack
 	stack.push( pYpX ); // pYpX текущий клик!!!
 	if(stack.length == 1) { // 1-st click
-//		console.log('Clicked on pYpX = ',pYpX,'stack.length = ', stack.length,'stack = ',stack);
 	}
 	else if(stack.length == 2) { // 2-st click
 		// Красим ячейку обратно W or B
@@ -120,7 +117,6 @@ function adder() {
 		c1 = detectSiblingColor(stYX[0],stYX[1]);
 		bgColor(stYX[0],stYX[1],c1);
 	}
-	console.log('End = ',stack);
 }
 
 
