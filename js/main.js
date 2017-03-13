@@ -22,7 +22,7 @@ function bildCell() {
 		rn.className = "row";
 		rn.innerHTML = " ";
 		table.appendChild(rn);
-		var j=1;
+		var j=1; 
 		while(j!==10) { // ячейка
 			var cn = crD();
 			cn.className = "cell";
