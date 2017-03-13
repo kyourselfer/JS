@@ -81,42 +81,72 @@ function bgColorRandom(min,max) {
 }
 // фун. возвращения прежнего цвета ячейки доски
 function adder() {
+	console.log('el.addEventListner(click,adder)');
 	// подфункции
 	function bgColor(arg1,arg2,arg3) {
 		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
 	}
+	// фун. возвращения прежнего цвета ячейки доски
 	function detectSiblingColor(arg1,arg2) {
-		// получаем значение цвета фона справа от кликнутой ячейки и слево
-		var rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
-			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText,
-			rigCurrent = el.childNodes[1].childNodes[arg1].childNodes[arg2].style.cssText;
-
-		if(rigNext !== 'background: black;' && rigPrev !== 'background: black;') {
-			color='black';
+		// 
+		var rigNext,rigPrev;
+		
+		if(arg2 > 2 && arg2 < 9) {
+			console.log('You clicked on row at range from 3 to 8');
+			// получаем значение цвета фона справа от кликнутой ячейки и слево
+			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
+			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
+			//rigCurrent = el.childNodes[1].childNodes[arg1].childNodes[arg2].style.cssText;
+			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') {
+				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+			}
+			else {
+				color='white';
+			}
 		}
-		else {
-			color='white';
+		else if(arg2 == 2) { /////////////////////////////////////////////////////////////////////////////////////////////// 2 и 9 при клике на соседа красит в темный
+			console.log('You clicked on row #2');
+			//alert('clicked row 2 / 9 arg2 = ' + arg2);
+			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
+			if(rigNext !== 'background: black;') {
+				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+			}
+			else {
+				color='white';
+			}
 		}
-		// фун. возвращения прежнего цвета ячейки доски
+		else if(arg2 == 9) {
+			console.log('You clicked on row #9');
+			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
+			if(rigPrev !== 'background: black;') {
+				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+			}
+			else {
+				color='white';
+			}
+		}
 		return color
 	}
+	
 	// код фун. adder()
 	var stYX=stack[0], c1; // stYX предыдущий клик!!!
 	// Добавляем координаты клика в конец массива stack
 	stack.push( pYpX ); // pYpX текущий клик!!!
-	if(stack.length == 1) { // 1-st click
-	}
-	else if(stack.length == 2) { // 2-st click
+	if(stack.length == 1) { console.log('1-st click'); }
+	else if(stack.length == 2) {
+		console.log('2-st click');
 		// Красим ячейку обратно W or B
 		c1 = detectSiblingColor(stYX[0],stYX[1]);
 		bgColor(stYX[0],stYX[1],c1);
 	}
 	else {
+		console.log('3 and futher click');
 		stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
 		stYX=stack[0];
 		c1 = detectSiblingColor(stYX[0],stYX[1]);
 		bgColor(stYX[0],stYX[1],c1);
 	}
+	console.log('\n');
 }
 
 
@@ -139,6 +169,7 @@ bildCell();
 bildDisplay('Нажмите на любую ячейку','');
 // Слушаем клик мышью и красим фон ячейки в произвольный цвет
 el.onclick=function(event) {
+	console.log('el.onclick=function(event)');
 	// Выделяем номер строки клика
 	ir0 = event.path[1].firstChild.nextElementSibling.innerHTML;
 	// фун. счета кол-ва соседий слева от клика
@@ -167,7 +198,7 @@ el.onclick=function(event) {
 		}
 		
 		//// Покрасим ячейку клика произвольным цветом ////
-		bgColor(pY,pX,'#' + bgColorRandom(0,255));
+		bgColor(pY,pX,'#' + bgColorRandom(50,200));
 		// Запоминаем последнюю ячейку клика
 		pYpX = [pY,pX];
 	}
