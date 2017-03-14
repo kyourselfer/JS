@@ -108,13 +108,16 @@ function adder() {
 			console.log('You clicked on row #2');
 			//alert('clicked row 2 / 9 arg2 = ' + arg2);
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
-			if(rigNext == 'background: black;') {
-				color='white';
+			if(rigNext == 'background: white;') {
+				color='black';
 				alert('с правой ЧЕРНАЯ');
 			}
-			else {
-				color='black';
+			else if(rigNext == 'background: black;') {
+				color='white';
 				alert('с правой НЕ ЧЕРНАЯ');
+			}
+			else {
+				color='pink';
 			}
 		}
 		else if(arg2 == 9) {
@@ -211,9 +214,11 @@ el.onclick=function(event) {
 	// Выведем на табло данные из event
 	bildDisplay(ir1,ir0);
 }
+
 // Возвращаем прежний цвет ячейки доски предидущего клика
 // навешаем СлушателяНаЭлемент el на событие click с исполнением фун. adder
 el.addEventListener('click',adder);
+
 
 // При выделении другой ячейки, предыдущая должна возвращаться к первоначальному виду.
 
