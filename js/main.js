@@ -108,26 +108,32 @@ function adder() {
 			console.log('You clicked on row #2');
 			//alert('clicked row 2 / 9 arg2 = ' + arg2);
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
-			if(rigNext == 'background: white;') {
+			if(arg1 == 2) {
 				color='black';
-				alert('с правой ЧЕРНАЯ');
+			}
+			else if(rigNext == 'background: white;') {
+				color='black';
 			}
 			else if(rigNext == 'background: black;') {
 				color='white';
-				alert('с правой НЕ ЧЕРНАЯ');
 			}
 			else {
-				color='pink';
+				rigNext = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].nextElementSibling.style.cssText;
+				color = (rigNext == 'background: black;') ? 'black' : 'white';
 			}
 		}
 		else if(arg2 == 9) {
 			console.log('You clicked on row #9');
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
-			if(rigPrev !== 'background: black;') {
-				color='black'; 
+			if(rigPrev == 'background: white;') {
+				color='black';
+			}
+			else if(rigPrev == 'background: black;') {
+				color='white';
 			}
 			else {
-				color='white';
+				rigPrev = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].previousElementSibling.style.cssText;
+				color = (rigPrev == 'background: black;') ? 'black' : 'white';
 			}
 		}
 		return color
@@ -203,7 +209,7 @@ el.onclick=function(event) {
 		}
 		
 		//// Покрасим ячейку клика произвольным цветом ////
-		bgColor(pY,pX,'#' + bgColorRandom(190,195));
+		bgColor(pY,pX,'#' + bgColorRandom(0,255));
 		// Запоминаем последнюю ячейку клика
 		pYpX = [pY,pX];
 	}
