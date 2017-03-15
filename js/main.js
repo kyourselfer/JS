@@ -75,8 +75,8 @@ function bgColorRandom(min,max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 // фун. возвращения прежнего цвета ячейки доски
-function adder() {
-	console.log('el.addEventListner(click,adder)');
+function adderClick() {
+	console.log('el.addEventListner(click,adderClick)');
 	// подфункции
 	function bgColor(arg1,arg2,arg3) {
 		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
@@ -134,7 +134,7 @@ function adder() {
 		return color
 	}
 	
-	// код фун. adder()
+	// код фун. adderClick()
 	var stYX=stack[0], c1; // stYX предыдущий клик!!!
 	// Добавляем координаты клика в конец массива stack
 	stack.push( pYpX ); // pYpX текущий клик!!!
@@ -154,7 +154,86 @@ function adder() {
 	}
 	console.log('\n');
 }
-
+//
+function adderKey() {
+	console.log('el.addEventListner(key,adderKey)');
+	// подфункции
+	function bgColor(arg1,arg2,arg3) {
+		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
+	}
+	// фун. возвращения прежнего цвета ячейки доски
+	function detectSiblingColor(arg1,arg2) {
+		// 
+		var rigNext,rigPrev;
+		
+		if(arg2 > 2 && arg2 < 9) {
+			console.log('You clicked on row at range from 3 to 8');
+			// получаем значение цвета фона справа от кликнутой ячейки и слево
+			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
+			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
+			//rigCurrent = el.childNodes[1].childNodes[arg1].childNodes[arg2].style.cssText;
+			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') {
+				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+			}
+			else {
+				color='white';
+			}
+		}
+		else if(arg2 == 2) { /////////////////////////////////////////////////////////////////////////////////////////////// 2 и 9 при клике на соседа красит в темный
+			console.log('You clicked on row #2');
+			//alert('clicked row 2 / 9 arg2 = ' + arg2);
+			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
+			if(arg1 == 2) {
+				color='black';
+			}
+			else if(rigNext == 'background: white;') {
+				color='black';
+			}
+			else if(rigNext == 'background: black;') {
+				color='white';
+			}
+			else {
+				rigNext = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].nextElementSibling.style.cssText;
+				color = (rigNext == 'background: black;') ? 'black' : 'white';
+			}
+		}
+		else if(arg2 == 9) {
+			console.log('You clicked on row #9');
+			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
+			if(rigPrev == 'background: white;') {
+				color='black';
+			}
+			else if(rigPrev == 'background: black;') {
+				color='white';
+			}
+			else {
+				rigPrev = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].previousElementSibling.style.cssText;
+				color = (rigPrev == 'background: black;') ? 'black' : 'white';
+			}
+		}
+		return color
+	}
+	
+	// код фун. adderKey()
+	var stYX=stack[0], c1; // stYX предыдущий клик!!!
+	// Добавляем координаты клика в конец массива stack
+	stack.push( pYpX ); // pYpX текущий клик!!!
+	if(stack.length == 1) { console.log('1-st click'); }
+	else if(stack.length == 2) {
+		console.log('2-st click');
+		// Красим ячейку обратно W or B
+		c1 = detectSiblingColor(stYX[0],stYX[1]);
+		bgColor(stYX[0],stYX[1],c1);
+	}
+	else {
+		console.log('3 and futher click');
+		stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
+		stYX=stack[0];
+		c1 = detectSiblingColor(stYX[0],stYX[1]);
+		bgColor(stYX[0],stYX[1],c1);
+	}
+	console.log('\n');
+}
 
 
 ////////////////// Тело кода //////////////////
@@ -218,10 +297,13 @@ el.onclick=function(event) {
 
 // Возвращаем прежний цвет ячейки доски предидущего клика
 // навешаем СлушателяНаЭлемент el на событие click с исполнением фун. adder
-el.addEventListener('click',adder);
+el.addEventListener('click',adderClick);
+el.addEventListener('click',adderKey);
 // клик мыши
 // нашатие key
-// Научиться обрабатывать стрелки клавиатуры таким образом, чтобы активную ячейку можно было перемещать по доске. Если ячейка выходит за границы таблицы – она должна появиться с другой стороны. При перемещении ячейки, так же должен извлекаться ее адрес.
+/*	Научиться обрабатывать стрелки клавиатуры таким образом, чтобы активную ячейку из предыдущего пункта можно было перемещать по доске. 
+	Если ячейка выходит за границы таблицы – она должна появиться с другой стороны. При перемещении ячейки, так же должен извлекаться ее адрес.
+*/
 
 
 
