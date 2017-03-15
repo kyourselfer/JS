@@ -237,6 +237,3 @@ el.addEventListener('click',adder);
 
 
 
-
-
-
