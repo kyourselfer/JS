@@ -74,8 +74,50 @@ function bgColor(arg1,arg2,arg3) {
 function bgColorRandom(min,max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+// фун. рандомной окраски фона ячейки
+function adderClickRandomColor() {
+	console.log('el.onclick=function(event)');
+	// Выделяем номер строки клика
+	ir0 = event.path[1].firstChild.nextElementSibling.innerHTML;
+	// фун. счета кол-ва соседий слева от клика
+	function countSib(event) {
+		var els = event.path[0].previousElementSibling, counter=0;
+		while(els !== null) {
+			els = els.previousElementSibling;
+			counter++;
+		}
+		return counter
+	}
+	
+	var ku = countSib(event), i=0, ir1, pX = ku+1, pY = +ir0+1;
+	if((ku > 0 && ku < 9) && (ir0 > 0 && ir0 < 9)) {
+		while(ku !== i) {
+			ir1 = arr[i+1];
+			i++;
+		}
+		// фун. покраски фона ячейки
+		function bgColor(arg1,arg2,arg3) {
+			return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
+		}
+		// фун. смены цвет фона ячейки на произвольный
+		function bgColorRandom(min,max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+		
+		//// Покрасим ячейку клика произвольным цветом ////
+		bgColor(pY,pX,'#' + bgColorRandom(0,255));
+		// Запоминаем последнюю ячейку клика
+		pYpX = [pY,pX];
+	}
+	else {
+		ir1 = 'Click to the Chess board, please';
+		ir0 = '';
+	}
+	// Выведем на табло данные из event
+	bildDisplay(ir1,ir0);
+}
 // фун. возвращения прежнего цвета ячейки доски
-function adderClick() {
+function adderClickReturnColor() {
 	console.log('el.addEventListner(click,adderClick)');
 	// подфункции
 	function bgColor(arg1,arg2,arg3) {
@@ -99,7 +141,7 @@ function adderClick() {
 				color='white';
 			}
 		}
-		else if(arg2 == 2) { /////////////////////////////////////////////////////////////////////////////////////////////// 2 и 9 при клике на соседа красит в темный
+		else if(arg2 == 2) {
 			console.log('You clicked on row #2');
 			//alert('clicked row 2 / 9 arg2 = ' + arg2);
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
@@ -154,13 +196,10 @@ function adderClick() {
 	}
 	console.log('\n');
 }
-//
+// ловим нажатие 
 function adderKey() {
 	console.log('el.addEventListner(key,adderKey)');
 	// подфункции
-	function bgColor(arg1,arg2,arg3) {
-		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
-	}
 	// фун. возвращения прежнего цвета ячейки доски
 	function detectSiblingColor(arg1,arg2) {
 		// 
@@ -168,30 +207,22 @@ function adderKey() {
 		
 		if(arg2 > 2 && arg2 < 9) {
 			console.log('You clicked on row at range from 3 to 8');
-			// получаем значение цвета фона справа от кликнутой ячейки и слево
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
-			//rigCurrent = el.childNodes[1].childNodes[arg1].childNodes[arg2].style.cssText;
+
 			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') {
-				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+				color='black';
 			}
 			else {
 				color='white';
 			}
 		}
-		else if(arg2 == 2) { /////////////////////////////////////////////////////////////////////////////////////////////// 2 и 9 при клике на соседа красит в темный
+		else if(arg2 == 2) {
 			console.log('You clicked on row #2');
-			//alert('clicked row 2 / 9 arg2 = ' + arg2);
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
-			if(arg1 == 2) {
-				color='black';
-			}
-			else if(rigNext == 'background: white;') {
-				color='black';
-			}
-			else if(rigNext == 'background: black;') {
-				color='white';
-			}
+			if(arg1 == 2) {	color='black'; }
+			else if(rigNext == 'background: white;') { color='black'; }
+			else if(rigNext == 'background: black;') { color='white'; }
 			else {
 				rigNext = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].nextElementSibling.style.cssText;
 				color = (rigNext == 'background: black;') ? 'black' : 'white';
@@ -200,12 +231,8 @@ function adderKey() {
 		else if(arg2 == 9) {
 			console.log('You clicked on row #9');
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
-			if(rigPrev == 'background: white;') {
-				color='black';
-			}
-			else if(rigPrev == 'background: black;') {
-				color='white';
-			}
+			if(rigPrev == 'background: white;') { color='black'; }
+			else if(rigPrev == 'background: black;') { color='white'; }
 			else {
 				rigPrev = el.childNodes[1].childNodes[arg1-1].childNodes[arg2].previousElementSibling.style.cssText;
 				color = (rigPrev == 'background: black;') ? 'black' : 'white';
@@ -215,24 +242,56 @@ function adderKey() {
 	}
 	
 	// код фун. adderKey()
-	var stYX=stack[0], c1; // stYX предыдущий клик!!!
-	// Добавляем координаты клика в конец массива stack
-	stack.push( pYpX ); // pYpX текущий клик!!!
-	if(stack.length == 1) { console.log('1-st click'); }
-	else if(stack.length == 2) {
-		console.log('2-st click');
-		// Красим ячейку обратно W or B
-		c1 = detectSiblingColor(stYX[0],stYX[1]);
-		bgColor(stYX[0],stYX[1],c1);
-	}
-	else {
-		console.log('3 and futher click');
-		stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
-		stYX=stack[0];
-		c1 = detectSiblingColor(stYX[0],stYX[1]);
-		bgColor(stYX[0],stYX[1],c1);
-	}
-	console.log('\n');
+	var stYX=stack[0],
+		rc = '#' + bgColorRandom(0,255);
+		
+	if (event.key == 'ArrowDown') { // спуститься на одну ячейку по Y
+		if( pYpX[0] !== 9 ) {
+			pYpX[0] = pYpX[0] + 1;
+			bgColor(pYpX[0],pYpX[1],rc);
+			stack.push( pYpX ); // добавляем в stack массив pYpX текущие нажатие
+			stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
+			c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
+			bgColor(pYpX[0] - 1,pYpX[1],c1);
+			if(pYpX[0] == 2) { bgColor(pYpX[0],pYpX[1],'pink'); }
+		}
+		else { pYpX[0] = 0; }
+    }
+    else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
+    	if( pYpX[0] !== 2 ) {
+    		pYpX[0] = pYpX[0] - 1;
+    	   	bgColor(pYpX[0],pYpX[1],rc);
+			stack.push( pYpX );
+			stack.shift();
+			c1 = detectSiblingColor(pYpX[0] + 1,pYpX[1]);
+			bgColor(pYpX[0] + 1,pYpX[1],c1);
+		}
+		else { alert('pYpX[0] = 2'); }
+    }
+    else if(event.key == 'ArrowRight') { // Сдвинуться на одну ячейку вправо
+    	if( pYpX[1] !== 9 ) {
+	    	pYpX[1] = pYpX[1] + 1;
+	    	bgColor(pYpX[0],pYpX[1],rc);
+			stack.push( pYpX ); 
+			stack.shift();
+			c1 = detectSiblingColor(pYpX[0],pYpX[1] - 1);
+			bgColor(pYpX[0],pYpX[1] - 1,c1);
+		}
+		else { alert('pYpX[1] = 9'); }
+    }
+    else if(event.key == 'ArrowLeft') { // Сдвинуться на одну ячейку влево
+		if( pYpX[1] !== 2 ) {
+    		pYpX[1] = pYpX[1] - 1; 
+	    	bgColor(pYpX[0],pYpX[1],rc);
+			stack.push( pYpX );
+			stack.shift();
+			c1 = detectSiblingColor(pYpX[0],pYpX[1] + 1);
+			bgColor(pYpX[0],pYpX[1] + 1,c1);
+		}
+		else { alert('pYpX[1] = 2'); }
+    }
+    else { bildDisplay('Нажата не верная кнопка, нажмите на одну из стрелок, пожалуйста',''); }
+	console.log('\n', stack, typeof(stack));
 }
 
 
@@ -253,54 +312,17 @@ bildCell();
 //// Построить информационное табло ////
 bildDisplay('Нажмите на любую ячейку','');
 // Слушаем клик мышью и красим фон ячейки в произвольный цвет
-el.onclick=function(event) {
-	console.log('el.onclick=function(event)');
-	// Выделяем номер строки клика
-	ir0 = event.path[1].firstChild.nextElementSibling.innerHTML;
-	// фун. счета кол-ва соседий слева от клика
-	function countSib(event) {
-		var els = event.path[0].previousElementSibling, counter=0;
-		while(els !== null) {
-			els = els.previousElementSibling;
-			counter++;
-		}
-		return counter
-	}
-	
-	var ku = countSib(event), i=0, ir1, pX = ku+1, pY = +ir0+1;
-	if((ku > 0 && ku < 9) && (ir0 > 0 && ir0 < 9)) {
-		while(ku !== i) {
-			ir1 = arr[i+1];
-			i++;
-		}
-		// фун. покраски фона ячейки
-		function bgColor(arg1,arg2,arg3) {
-			return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
-		}
-		// фун. смены цвет фона ячейки на произвольный
-		function bgColorRandom(min,max) {
-			return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
-		
-		//// Покрасим ячейку клика произвольным цветом ////
-		bgColor(pY,pX,'#' + bgColorRandom(0,255));
-		// Запоминаем последнюю ячейку клика
-		pYpX = [pY,pX];
-	}
-	else {
-		ir1 = 'Click to the Chess board, please';
-		ir0 = '';
-	}
-	// Выведем на табло данные из event
-	bildDisplay(ir1,ir0);
-}
 
 // Возвращаем прежний цвет ячейки доски предидущего клика
-// навешаем СлушателяНаЭлемент el на событие click с исполнением фун. adder
-el.addEventListener('click',adderClick);
-el.addEventListener('click',adderKey);
-// клик мыши
+// подключим СлушателяНаЭлемент el на событие click с исполнением фун. adderClickPaint
+el.addEventListener('click',adderClickRandomColor);
+el.addEventListener('click',adderClickReturnColor);
+// подключим СлушателяНаЭлемент el на событие keydown с исполнением фун. adderKey
+document.addEventListener('keydown',adderKey);
+
+// клик мыши +++++
 // нашатие key
+
 /*	Научиться обрабатывать стрелки клавиатуры таким образом, чтобы активную ячейку из предыдущего пункта можно было перемещать по доске. 
 	Если ячейка выходит за границы таблицы – она должна появиться с другой стороны. При перемещении ячейки, так же должен извлекаться ее адрес.
 */
