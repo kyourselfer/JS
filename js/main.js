@@ -95,10 +95,6 @@ function adderClickRandomColor() {
 			ir1 = arr[i+1];
 			i++;
 		}
-		// фун. покраски фона ячейки
-		function bgColor(arg1,arg2,arg3) {
-			return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
-		}
 		// фун. смены цвет фона ячейки на произвольный
 		function bgColorRandom(min,max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -217,6 +213,7 @@ function adderKey() {
 				color='white';
 			}
 		}
+		else if(arg1 == 1) { color='white'; }
 		else if(arg2 == 2) {
 			console.log('You clicked on row #2');
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
@@ -247,15 +244,15 @@ function adderKey() {
 		
 	if (event.key == 'ArrowDown') { // спуститься на одну ячейку по Y
 		if( pYpX[0] !== 9 ) {
-			pYpX[0] = pYpX[0] + 1;
-			bgColor(pYpX[0],pYpX[1],rc);
+			pYpX[0] = pYpX[0] + 1;  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// получает 2
+			bgColor(pYpX[0],pYpX[1],'red');
 			stack.push( pYpX ); // добавляем в stack массив pYpX текущие нажатие
 			stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
 			c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
 			bgColor(pYpX[0] - 1,pYpX[1],c1);
-			if(pYpX[0] == 2) { bgColor(pYpX[0],pYpX[1],'pink'); }
+			if(pYpX[0] == 1) { alert( pYpX[0] + ' ' + pYpX[1] ); bgColor(pYpX[0],pYpX[1],'white'); } //////////////////////////////////////////////// ...
 		}
-		else { pYpX[0] = 0; }
+		else { pYpX[0] = 1; } /////////////////////////////////////////////////////////////////////////////////////////////////////////////// получает 1
     }
     else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
     	if( pYpX[0] !== 2 ) {
