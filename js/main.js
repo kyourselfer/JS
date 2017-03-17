@@ -42,7 +42,7 @@ function bildCell() {
 			if((j%2 !== 0 && i%2 !== 0) || (j%2 == 0 && i%2 == 0)) { bgColor(i,j,'black'); }
 			j++;
 		}
-		i++;	
+		i++;
 	}
 	// Красим всю 1-ю строку и 1-й столбец
 	var k=9;
@@ -244,26 +244,35 @@ function adderKey() {
 		
 	if (event.key == 'ArrowDown') { // спуститься на одну ячейку по Y
 		if( pYpX[0] !== 9 ) {
-			pYpX[0] = pYpX[0] + 1;  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// получает 2
+			pYpX[0] = pYpX[0] + 1;
 			bgColor(pYpX[0],pYpX[1],'red');
 			stack.push( pYpX ); // добавляем в stack массив pYpX текущие нажатие
 			stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
 			c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
 			bgColor(pYpX[0] - 1,pYpX[1],c1);
-			if(pYpX[0] == 1) { alert( pYpX[0] + ' ' + pYpX[1] ); bgColor(pYpX[0],pYpX[1],'white'); } //////////////////////////////////////////////// ...
+			if(pYpX[0] == 2) { // красим верх и низ (как исключение из правила окраски предыдущей ячейки)
+				c1 = detectSiblingColor(pYpX[0] + 7,pYpX[1]);
+				bgColor(pYpX[0] + 7,pYpX[1],c1);
+				bgColor(pYpX[0] - 1,pYpX[1],'white');
+			}
 		}
-		else { pYpX[0] = 1; } /////////////////////////////////////////////////////////////////////////////////////////////////////////////// получает 1
+		else { pYpX[0] = 1; }
     }
     else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
     	if( pYpX[0] !== 2 ) {
     		pYpX[0] = pYpX[0] - 1;
-    	   	bgColor(pYpX[0],pYpX[1],rc);
+    	   	bgColor(pYpX[0],pYpX[1],'pink');
 			stack.push( pYpX );
 			stack.shift();
 			c1 = detectSiblingColor(pYpX[0] + 1,pYpX[1]);
 			bgColor(pYpX[0] + 1,pYpX[1],c1);
+			if(pYpX[0] == 9) {
+				alert('9');//////////////////////////////////////////////////////////////////////////////////???
+//				c1 = detectSiblingColor(pYpX[0] - 7,pYpX[1]);
+//				bgColor(pYpX[0] - 7,pYpX[1],c1);
+			}
 		}
-		else { alert('pYpX[0] = 2'); }
+		else {  pYpX[0] = 9; }
     }
     else if(event.key == 'ArrowRight') { // Сдвинуться на одну ячейку вправо
     	if( pYpX[1] !== 9 ) {
