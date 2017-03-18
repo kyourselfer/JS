@@ -1,7 +1,3 @@
-//////// Задание 1 ////////
-console.log('\n');
-console.log('//////// Задание 1 ////////');
-
 /////// создаём доску на JS ///////
 // внешний массив в "window" для хранения координат кликов (1-го и 2-го)
 window.stack = [];
@@ -76,7 +72,6 @@ function bgColorRandom(min,max) {
 }
 // фун. рандомной окраски фона ячейки
 function adderClickRandomColor() {
-	console.log('el.onclick=function(event)');
 	// Выделяем номер строки клика
 	ir0 = event.path[1].firstChild.nextElementSibling.innerHTML;
 	// фун. счета кол-ва соседий слева от клика
@@ -114,8 +109,7 @@ function adderClickRandomColor() {
 }
 // фун. возвращения прежнего цвета ячейки доски
 function adderClickReturnColor() {
-	console.log('el.addEventListner(click,adderClick)');
-	// подфункции
+	// фун. окраски ячейки
 	function bgColor(arg1,arg2,arg3) {
 		return el.childNodes[1].childNodes[arg1].childNodes[arg2].style.background=arg3;
 	}
@@ -125,21 +119,17 @@ function adderClickReturnColor() {
 		var rigNext,rigPrev;
 		
 		if(arg2 > 2 && arg2 < 9) {
-			console.log('You clicked on row at range from 3 to 8');
 			// получаем значение цвета фона справа от кликнутой ячейки и слево
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
-			//rigCurrent = el.childNodes[1].childNodes[arg1].childNodes[arg2].style.cssText;
 			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') {
-				color='black';// alert('с левой стороны предыдущего клика ячейка НЕ ЧЕРНАЯ');
+				color='black';
 			}
 			else {
 				color='white';
 			}
 		}
 		else if(arg2 == 2) {
-			console.log('You clicked on row #2');
-			//alert('clicked row 2 / 9 arg2 = ' + arg2);
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
 			if(arg1 == 2) {
 				color='black';
@@ -156,7 +146,6 @@ function adderClickReturnColor() {
 			}
 		}
 		else if(arg2 == 9) {
-			console.log('You clicked on row #9');
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
 			if(rigPrev == 'background: white;') {
 				color='black';
@@ -176,25 +165,21 @@ function adderClickReturnColor() {
 	var stYX=stack[0], c1; // stYX предыдущий клик!!!
 	// Добавляем координаты клика в конец массива stack
 	stack.push( pYpX ); // pYpX текущий клик!!!
-	if(stack.length == 1) { console.log('1-st click, pYpX = ',pYpX); }
+	if(stack.length == 1) {  }
 	else if(stack.length == 2) {
-		console.log('2-st click');
 		// Красим ячейку обратно W or B
 		c1 = detectSiblingColor(stYX[0],stYX[1]);
 		bgColor(stYX[0],stYX[1],c1);
 	}
 	else {
-		console.log('3 and futher click');
 		stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
 		stYX=stack[0];
 		c1 = detectSiblingColor(stYX[0],stYX[1]);
 		bgColor(stYX[0],stYX[1],c1);
 	}
-	console.log('\n');
 }
 // ловим нажатие 
 function adderKey() {
-	console.log('el.addEventListner(key,adderKey)');
 	// подфункции
 	// фун. возвращения прежнего цвета ячейки доски
 	function detectSiblingColor(arg1,arg2) {
@@ -202,20 +187,14 @@ function adderKey() {
 		var rigNext,rigPrev;
 		
 		if(arg2 > 2 && arg2 < 9) {
-			console.log('You clicked on row at range from 3 to 8');
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText,
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
 
-			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') {
-				color='black';
-			}
-			else {
-				color='white';
-			}
+			if(rigPrev !== 'background: black;' && rigNext !== 'background: black;') { color='black'; }
+			else { color='white'; }
 		}
 		else if(arg1 == 1) { color='white'; }
 		else if(arg2 == 2) {
-			console.log('You clicked on row #2');
 			rigNext = el.childNodes[1].childNodes[arg1].childNodes[arg2].nextElementSibling.style.cssText;
 			if(arg1 == 2) {	color='black'; }
 			else if(rigNext == 'background: white;') { color='black'; }
@@ -226,7 +205,6 @@ function adderKey() {
 			}
 		}
 		else if(arg2 == 9) {
-			console.log('You clicked on row #9');
 			rigPrev = el.childNodes[1].childNodes[arg1].childNodes[arg2].previousElementSibling.style.cssText;
 			if(rigPrev == 'background: white;') { color='black'; }
 			else if(rigPrev == 'background: black;') { color='white'; }
@@ -237,48 +215,46 @@ function adderKey() {
 		}
 		return color
 	}
-	
 	// код фун. adderKey()
 	var stYX=stack[0],
 		rc = '#' + bgColorRandom(0,255);
-		
+			
 	if (event.key == 'ArrowDown') { // спуститься на одну ячейку по Y
 		if( pYpX[0] !== 9 ) {
 			pYpX[0] = pYpX[0] + 1;
-			bgColor(pYpX[0],pYpX[1],'red');
+			bgColor(pYpX[0],pYpX[1],rc);
 			stack.push( pYpX ); // добавляем в stack массив pYpX текущие нажатие
 			stack.shift(); // сдвигаем элементы массива удалив первый элемент массива
 			c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
 			bgColor(pYpX[0] - 1,pYpX[1],c1);
-			if(pYpX[0] == 2) { // красим верх и низ (как исключение из правила окраски предыдущей ячейки)
-				c1 = detectSiblingColor(pYpX[0] + 7,pYpX[1]);
-				bgColor(pYpX[0] + 7,pYpX[1],c1);
-				bgColor(pYpX[0] - 1,pYpX[1],'white');
-			}
 		}
-		else { pYpX[0] = 2; }
+		else {
+			pYpX[0] = 2;
+			c1 = detectSiblingColor(pYpX[0] + 7,pYpX[1]);
+			bgColor(pYpX[0],pYpX[1],rc);
+			bgColor(pYpX[0] + 7,pYpX[1],c1);
+		}
     }
     else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
-    	console.log('current Y = ',pYpX[0]);
     	if( pYpX[0] !== 2 ) {
    		    pYpX[0] = pYpX[0] - 1;
-    	   	bgColor(pYpX[0],pYpX[1],'pink');
+    	   	bgColor(pYpX[0],pYpX[1],rc);
 			stack.push( pYpX );
 			stack.shift();
 			if( pYpX[0] !== 9 ) {
 				c1 = detectSiblingColor(pYpX[0] + 1,pYpX[1]);
 				bgColor(pYpX[0] + 1,pYpX[1],c1);
 			}
-			else {//////////////////////////////////// --------?
+			else {
 				c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
 				bgColor(pYpX[0] - 1,pYpX[1],c1)
 			}
-			console.log('curent Y-1 = ',pYpX[0]);
 		}
 		else {
-			pYpX[0] = 10; ///////////////////////////// -----------?
-			c1 = detectSiblingColor(pYpX[0] - 8,pYpX[1]);
-			bgColor(pYpX[0] - 8,pYpX[1],c1);
+			pYpX[0] = 9;
+			c1 = detectSiblingColor(pYpX[0] - 7,pYpX[1]);
+			bgColor(pYpX[0],pYpX[1],rc);
+			bgColor(pYpX[0] - 7,pYpX[1],c1);
 		}
     }
     else if(event.key == 'ArrowRight') { // Сдвинуться на одну ячейку вправо
@@ -290,21 +266,36 @@ function adderKey() {
 			c1 = detectSiblingColor(pYpX[0],pYpX[1] - 1);
 			bgColor(pYpX[0],pYpX[1] - 1,c1);
 		}
-		else { alert('pYpX[1] = 9'); }
+		else {
+			pYpX[1] = 2;
+			c1 = detectSiblingColor(pYpX[0],pYpX[1] + 7);
+			bgColor(pYpX[0],pYpX[1],rc);
+			bgColor(pYpX[0],pYpX[1] + 7,c1);
+		}
     }
     else if(event.key == 'ArrowLeft') { // Сдвинуться на одну ячейку влево
-		if( pYpX[1] !== 2 ) {
-    		pYpX[1] = pYpX[1] - 1; 
-	    	bgColor(pYpX[0],pYpX[1],rc);
+    	if( pYpX[1] !== 2 ) {
+   		    pYpX[1] = pYpX[1] - 1;
+    	   	bgColor(pYpX[0],pYpX[1],rc);
 			stack.push( pYpX );
 			stack.shift();
-			c1 = detectSiblingColor(pYpX[0],pYpX[1] + 1);
-			bgColor(pYpX[0],pYpX[1] + 1,c1);
+			if( pYpX[1] !== 9 ) {
+				c1 = detectSiblingColor(pYpX[0],pYpX[1] + 1);
+				bgColor(pYpX[0],pYpX[1] + 1,c1);
+			}
+			else {
+				c1 = detectSiblingColor(pYpX[0],pYpX[1] - 1);
+				bgColor(pYpX[0],pYpX[1] - 1,c1)
+			}
 		}
-		else { alert('pYpX[1] = 2'); }
+		else {
+			pYpX[1] = 9;
+			c1 = detectSiblingColor(pYpX[0],pYpX[1] - 7);
+			bgColor(pYpX[0],pYpX[1],rc);
+			bgColor(pYpX[0],pYpX[1] - 7,c1);
+		}
     }
     else { bildDisplay('Нажата не верная кнопка, нажмите на одну из стрелок, пожалуйста',''); }
-	console.log('\n', stack, typeof(stack));
 }
 
 
@@ -333,12 +324,6 @@ el.addEventListener('click',adderClickReturnColor);
 // подключим СлушателяНаЭлемент el на событие keydown с исполнением фун. adderKey
 document.addEventListener('keydown',adderKey);
 
-// клик мыши +++++
-// нашатие key
-
-/*	Научиться обрабатывать стрелки клавиатуры таким образом, чтобы активную ячейку из предыдущего пункта можно было перемещать по доске. 
-	Если ячейка выходит за границы таблицы – она должна появиться с другой стороны. При перемещении ячейки, так же должен извлекаться ее адрес.
-*/
 
 
 
