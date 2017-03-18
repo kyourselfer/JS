@@ -176,7 +176,7 @@ function adderClickReturnColor() {
 	var stYX=stack[0], c1; // stYX предыдущий клик!!!
 	// Добавляем координаты клика в конец массива stack
 	stack.push( pYpX ); // pYpX текущий клик!!!
-	if(stack.length == 1) { console.log('1-st click'); }
+	if(stack.length == 1) { console.log('1-st click, pYpX = ',pYpX); }
 	else if(stack.length == 2) {
 		console.log('2-st click');
 		// Красим ячейку обратно W or B
@@ -256,23 +256,30 @@ function adderKey() {
 				bgColor(pYpX[0] - 1,pYpX[1],'white');
 			}
 		}
-		else { pYpX[0] = 1; }
+		else { pYpX[0] = 2; }
     }
     else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
+    	console.log('current Y = ',pYpX[0]);
     	if( pYpX[0] !== 2 ) {
-    		pYpX[0] = pYpX[0] - 1;
+   		    pYpX[0] = pYpX[0] - 1;
     	   	bgColor(pYpX[0],pYpX[1],'pink');
 			stack.push( pYpX );
 			stack.shift();
-			c1 = detectSiblingColor(pYpX[0] + 1,pYpX[1]);
-			bgColor(pYpX[0] + 1,pYpX[1],c1);
-			if(pYpX[0] == 9) {
-				alert('9');//////////////////////////////////////////////////////////////////////////////////???
-//				c1 = detectSiblingColor(pYpX[0] - 7,pYpX[1]);
-//				bgColor(pYpX[0] - 7,pYpX[1],c1);
+			if( pYpX[0] !== 9 ) {
+				c1 = detectSiblingColor(pYpX[0] + 1,pYpX[1]);
+				bgColor(pYpX[0] + 1,pYpX[1],c1);
 			}
+			else {//////////////////////////////////// --------?
+				c1 = detectSiblingColor(pYpX[0] - 1,pYpX[1]);
+				bgColor(pYpX[0] - 1,pYpX[1],c1)
+			}
+			console.log('curent Y-1 = ',pYpX[0]);
 		}
-		else {  pYpX[0] = 9; }
+		else {
+			pYpX[0] = 10; ///////////////////////////// -----------?
+			c1 = detectSiblingColor(pYpX[0] - 8,pYpX[1]);
+			bgColor(pYpX[0] - 8,pYpX[1],c1);
+		}
     }
     else if(event.key == 'ArrowRight') { // Сдвинуться на одну ячейку вправо
     	if( pYpX[1] !== 9 ) {
