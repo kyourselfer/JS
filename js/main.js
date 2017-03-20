@@ -70,7 +70,7 @@ function bgColor(arg1,arg2,arg3) {
 function bgColorRandom(min,max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-// фун. рандомной окраски фона ячейки
+// фун. рандомной окраски фона ячейки и вывод на табло
 function adderClickRandomColor() {
 	// Выделяем номер строки клика
 	ir0 = event.path[1].firstChild.nextElementSibling.innerHTML;
@@ -215,9 +215,20 @@ function adderKey() {
 		}
 		return color
 	}
+	// выведем координаты на табло
+	function displayFKey(arg1) {
+		// выберем элемент из массива arr[]
+		while(arg1 !== i) {
+			r1 = arr[i];
+			i++;
+		}
+		bildDisplay(r1,pYpX[0]-1);
+	}
+	
 	// код фун. adderKey()
 	var stYX=stack[0],
-		rc = '#' + bgColorRandom(0,255);
+		rc = '#' + bgColorRandom(0,255),
+		i=1,r1;
 			
 	if (event.key == 'ArrowDown') { // спуститься на одну ячейку по Y
 		if( pYpX[0] !== 9 ) {
@@ -234,6 +245,7 @@ function adderKey() {
 			bgColor(pYpX[0],pYpX[1],rc);
 			bgColor(pYpX[0] + 7,pYpX[1],c1);
 		}
+		displayFKey(pYpX[1]);
     }
     else if(event.key == 'ArrowUp') { // подняться на одну ячейку по Y
     	if( pYpX[0] !== 2 ) {
@@ -256,6 +268,7 @@ function adderKey() {
 			bgColor(pYpX[0],pYpX[1],rc);
 			bgColor(pYpX[0] - 7,pYpX[1],c1);
 		}
+		displayFKey(pYpX[1]);
     }
     else if(event.key == 'ArrowRight') { // Сдвинуться на одну ячейку вправо
     	if( pYpX[1] !== 9 ) {
@@ -272,6 +285,7 @@ function adderKey() {
 			bgColor(pYpX[0],pYpX[1],rc);
 			bgColor(pYpX[0],pYpX[1] + 7,c1);
 		}
+		displayFKey(pYpX[1]);
     }
     else if(event.key == 'ArrowLeft') { // Сдвинуться на одну ячейку влево
     	if( pYpX[1] !== 2 ) {
@@ -294,6 +308,7 @@ function adderKey() {
 			bgColor(pYpX[0],pYpX[1],rc);
 			bgColor(pYpX[0],pYpX[1] - 7,c1);
 		}
+		displayFKey(pYpX[1]);
     }
     else { bildDisplay('Нажата не верная кнопка, нажмите на одну из стрелок, пожалуйста',''); }
 }
